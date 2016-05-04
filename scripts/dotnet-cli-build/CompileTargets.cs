@@ -351,6 +351,8 @@ namespace Microsoft.DotNet.Cli.Build
             Directory.CreateDirectory(Dirs.Stage2);
 
             // Restore again, with Stage1.
+            // NOTE: This is necessary for bootstrapping https://github.com/dotnet/cli/issues/2874.
+            //       This code will be removed after change has made its way into stage 0.
             Restore(c, DotNetCli.Stage1);
 
             PublishSharedFramework(c, Dirs.Stage2, DotNetCli.Stage1, nuGetVersion: null);
@@ -543,6 +545,8 @@ namespace Microsoft.DotNet.Cli.Build
                 var runtimeGraphGeneratorOutput = Path.Combine(Dirs.Output, "tools", runtimeGraphGeneratorName);
 
                 // Override the NuGet version the RuntimeGraphGenerator depends on.
+                // NOTE: This is necessary for bootstrapping https://github.com/dotnet/cli/issues/2874.
+                //       This code will be removed after change has made its way into stage 0.
                 var originals = new[]
                 {
                     new { Path = (string)null, Content = (byte[])null }
@@ -576,6 +580,8 @@ namespace Microsoft.DotNet.Cli.Build
                     .Execute()
                     .EnsureSuccessful();
 
+                // NOTE: This is necessary for bootstrapping https://github.com/dotnet/cli/issues/2874.
+                //       This code will be removed after change has made its way into stage 0.
                 if (nuGetVersion != null)
                 {
                     foreach (var original in originals)
